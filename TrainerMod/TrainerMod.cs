@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.Characters;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
@@ -157,7 +158,17 @@ namespace TrainerMod
                             Game1.player.Name = e.Command.CalledArgs[1];
                             break;
                         case "pet":
-                            Log.AsyncR("Pets cannot currently be renamed.");
+                            foreach (NPC npc in Game1.getFarm().characters)
+                            {
+                                if (npc is Pet)
+                                    npc.name = e.Command.CalledArgs[1];
+                            }
+                            foreach (NPC npc in Utility.getHomeOfFarmer(Game1.player).characters)
+                            {
+                                if (npc is Pet)
+                                    npc.name = e.Command.CalledArgs[1];
+                            }
+                            Log.AsyncR("Pet Rename Test.");
                             break;
                         case "farm":
                             Game1.player.farmName = e.Command.CalledArgs[1];
